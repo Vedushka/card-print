@@ -13,13 +13,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CardComponent } from './card/card.component';
 import * as XLSX from 'xlsx';
-import domToImage from 'dom-to-image';
-import jsPDF, { jsPDFOptions } from 'jspdf';
-import moment from 'moment';
-import { OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { delay } from 'rxjs';
+import {  ViewChild, ElementRef } from '@angular/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { MtxTooltip, TooltipPosition } from '@ng-matero/extensions/tooltip';
+import { MtxTooltip } from '@ng-matero/extensions/tooltip';
 
 
 @Component({

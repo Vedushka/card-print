@@ -1,0 +1,202 @@
+<mat-toolbar class="no-print">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+        (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Card print</span>
+    <span class="spacer"></span>
+    <button mat-button color="primary" (click)="print()">Print</button>
+
+    <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button> -->
+</mat-toolbar>
+<mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav no-print" mode="side" [opened]="true">
+        <section class="sidenav-content no-print">
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Height mm</mat-label>
+                        <input matInput type="number" [(ngModel)]="height">
+                    </section>
+                    <mat-slider class="" [max]="120" [min]="12" [step]="0.1" showTickMarks discrete
+                        [displayWith]="formatLabel">
+                        <input matSliderThumb [(ngModel)]="height">
+                    </mat-slider>
+                </mat-form-field>
+            </section>
+
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Width mm</mat-label>
+                        <input matInput type="number" [(ngModel)]="width">
+                    </section>
+                    <mat-slider class="" [max]="160" [min]="12" [step]="1" showTickMarks discrete
+                        [displayWith]="formatLabel">
+                        <input matSliderThumb [(ngModel)]="width">
+                    </mat-slider>
+                </mat-form-field>
+            </section>
+
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Border radius mm</mat-label>
+                        <input matInput type="number" [(ngModel)]="borderRadius">
+                    </section>
+                    <mat-slider class="" [max]="20" [min]="0" [step]="1" showTickMarks discrete
+                        [displayWith]="formatLabel">
+                        <input matSliderThumb [(ngModel)]="borderRadius">
+                    </mat-slider>
+                </mat-form-field>
+            </section>
+
+            <section>
+                <p>Side of card</p>
+                <mat-radio-group aria-label="Side of card" [value]="sideOfCard" (change)="changeSide($event)">
+                    <mat-radio-button value="face" checked="true">Face</mat-radio-button>
+                    <mat-radio-button value="reverse">Reverse</mat-radio-button>
+                </mat-radio-group>
+            </section>
+            <section>
+                <mat-checkbox [(ngModel)]="cardBorder">Card border</mat-checkbox>
+
+            </section>
+
+
+            @if(sideOfCard == "face"){
+            <section>
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Background color</mat-label>
+                        <input matInput type="color" [(ngModel)]="backgroundColor">
+                    </section>
+                </mat-form-field>
+            </section>
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Text size</mat-label>
+                        <input matInput type="number" [(ngModel)]="textSize">
+                    </section>
+                </mat-form-field>
+            </section>
+            <section>
+
+                <ng-template #tooltiplFile>
+                    <p>Upload file which contains words and translations in colums</p>
+                    <img src="/assets/img/filescreen.png" width="185px" height="140px" alt="" srcset="">
+                </ng-template>
+
+                <section class="button-and-info">
+                    <button type="button" mat-raised-button (click)="fileInput.click()">Open excel file</button>
+                    <mat-icon [mtxTooltip]="tooltiplFile">info</mat-icon>
+                </section>
+
+                <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx,.xls">
+                <p class="file-name">
+                    @if(selectedFile?.name){
+                    {{selectedFile?.name}}&#8203;
+                    }
+                    @else{
+                    Not file chosen
+                    }
+                </p>
+            </section>
+            }
+            @else {
+
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Picture size %</mat-label>
+                        <input matInput type="number" [(ngModel)]="backgroundSize">
+                    </section>
+                    <mat-slider class="" [max]="200" [min]="1" [step]="1">
+                        <input matSliderThumb [(ngModel)]="backgroundSize">
+                    </mat-slider>
+                </mat-form-field>
+            </section>
+
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Amount of card</mat-label>
+                        <input matInput type="number" (change)="changrAmountOfCard($event)" [(ngModel)]="amountOfCard">
+                    </section>
+                </mat-form-field>
+            </section>
+            <section>
+                <ng-template #tooltipPic>
+                    <p>Upload cover picture for reverse of cards</p>
+                    <img src="/assets/img/cover.png" alt="" srcset="">
+                </ng-template>
+                
+                <section class="button-and-info">
+                    <button type="button" mat-raised-button (click)="pictureInput.click()">Open cover</button>
+                    <mat-icon [mtxTooltip]="tooltipPic">info</mat-icon>
+                </section>
+
+                <input hidden (change)="onPictureSelected($event)" #pictureInput type="file"
+                    accept="image/png, image/jpeg">
+                <p class="file-name">
+                    @if(selectedPicture?.name){
+                    Picture: {{selectedPicture?.name}}&#8203;
+                    }
+                    @else{
+                    Not cover chosen
+                    }
+                </p>
+            </section>
+            }
+
+            <section>
+                <button mat-raised-button color="primary" (click)="print()">Print</button>
+            </section>
+
+
+
+
+
+        </section>
+
+    </mat-drawer>
+
+
+
+
+
+
+
+    <div class="sidenav-content">
+        <section class="cards-wrapper">
+
+            <section class="cards print">
+
+                @if(sideOfCard == "face"){
+                @for(card of data; track card){
+                <app-card [cardText]="card" [width]="width" [height]="height" [borderRadius]="borderRadius"
+                    [cardBorder]="cardBorder" [backgroundColor]="backgroundColor" [textSize]="textSize">
+                </app-card>
+
+                }
+                }
+                @else{
+                @for(card of amountOfCardArr; track card){
+                <app-card [width]="width" [height]="height" [borderRadius]="borderRadius" [cardBorder]="cardBorder"
+                    [backgroundPicture]="selectedPicture" [textSize]="textSize"
+                    [backgroundPictureSize]="backgroundSize">
+                </app-card>
+
+                }
+                }
+            </section>
+        </section>
+    </div>
+
+</mat-drawer-container>

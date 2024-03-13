@@ -95,7 +95,7 @@
 
                 <section class="button-and-info">
                     <button type="button" mat-raised-button (click)="fileInput.click()">Open excel file</button>
-                    <mat-icon [mtxTooltip]="tooltiplFile">info</mat-icon>
+                    <mat-icon (click)="mtxTooltipFile.show()" #mtxTooltipFile="mtxTooltip" [mtxTooltip]="tooltiplFile">info</mat-icon>
                 </section>
 
                 <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx,.xls">
@@ -139,7 +139,7 @@
                 
                 <section class="button-and-info">
                     <button type="button" mat-raised-button (click)="pictureInput.click()">Open cover</button>
-                    <mat-icon [mtxTooltip]="tooltipPic">info</mat-icon>
+                    <mat-icon (click)="mtxTooltipPic.show()" #mtxTooltipPic="mtxTooltip" [mtxTooltip]="tooltipPic">info</mat-icon>
                 </section>
 
                 <input hidden (change)="onPictureSelected($event)" #pictureInput type="file"

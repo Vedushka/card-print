@@ -54,8 +54,10 @@ export class GeneratePageComponent {
   textSize = 7;
   selectedFile: any = null;
   selectedPicture: any = null;
+  selectedPictureFace: any = null;
   backgroundColor = "#ffffff";
   backgroundSize = 100;
+  backgroundSizeFace = 100;
   data = [["Example"]];
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
 
@@ -95,6 +97,9 @@ constructor(){
 
   onPictureSelected(event: any): void {
     this.selectedPicture = event.target.files[0] ?? null;
+  }
+  onPictureSelectedFace(event: any): void {
+    this.selectedPictureFace = event.target.files[0] ?? null;
   }
   
   print(){

@@ -7,12 +7,7 @@
     <span class="spacer"></span>
     <button mat-button color="primary" (click)="print()">Print</button>
 
-    <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button> -->
+
 </mat-toolbar>
 <mat-drawer-container class="container" autosize>
     <mat-drawer #drawer class="sidenav no-print" mode="side" [opened]="true">
@@ -71,6 +66,42 @@
 
             @if(sideOfCard == "face"){
             <section>
+                <ng-template #tooltipPic>
+                    <p>Upload cover picture for face of cards</p>
+                    <img src="/assets/img/cover-face.png" alt="" srcset="">
+                </ng-template>
+
+                <section class="button-and-info">
+                    <button type="button" mat-raised-button (click)="pictureInputFace.click()">Open cover</button>
+                    <mat-icon (click)="mtxTooltipPic.show()" #mtxTooltipPic="mtxTooltip"
+                        [mtxTooltip]="tooltipPic">info</mat-icon>
+                </section>
+
+                <input hidden (change)="onPictureSelectedFace($event)" #pictureInputFace type="file"
+                    accept="image/png, image/jpeg, image/jpg">
+                <p class="file-name">
+                    @if(selectedPictureFace?.name){
+                    Picture: {{selectedPictureFace?.name}}&#8203;
+                    }
+                    @else{
+                    Not cover chosen
+                    }
+                </p>
+            </section>
+
+            <section class="section">
+                <mat-form-field class="">
+                    <section>
+                        <mat-label>Picture size %</mat-label>
+                        <input matInput type="number" [(ngModel)]="backgroundSizeFace">
+                    </section>
+                    <mat-slider class="" [max]="200" [min]="1" [step]="1">
+                        <input matSliderThumb [(ngModel)]="backgroundSizeFace">
+                    </mat-slider>
+                </mat-form-field>
+            </section>
+
+            <section>
                 <mat-form-field class="">
                     <section>
                         <mat-label>Background color</mat-label>
@@ -95,7 +126,8 @@
 
                 <section class="button-and-info">
                     <button type="button" mat-raised-button (click)="fileInput.click()">Open excel file</button>
-                    <mat-icon (click)="mtxTooltipFile.show()" #mtxTooltipFile="mtxTooltip" [mtxTooltip]="tooltiplFile">info</mat-icon>
+                    <mat-icon (click)="mtxTooltipFile.show()" #mtxTooltipFile="mtxTooltip"
+                        [mtxTooltip]="tooltiplFile">info</mat-icon>
                 </section>
 
                 <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx,.xls">
@@ -136,10 +168,11 @@
                     <p>Upload cover picture for reverse of cards</p>
                     <img src="/assets/img/cover.png" alt="" srcset="">
                 </ng-template>
-                
+
                 <section class="button-and-info">
                     <button type="button" mat-raised-button (click)="pictureInput.click()">Open cover</button>
-                    <mat-icon (click)="mtxTooltipPic.show()" #mtxTooltipPic="mtxTooltip" [mtxTooltip]="tooltipPic">info</mat-icon>
+                    <mat-icon (click)="mtxTooltipPic.show()" #mtxTooltipPic="mtxTooltip"
+                        [mtxTooltip]="tooltipPic">info</mat-icon>
                 </section>
 
                 <input hidden (change)="onPictureSelected($event)" #pictureInput type="file"
@@ -169,10 +202,6 @@
 
 
 
-
-
-
-
     <div class="sidenav-content">
         <section class="cards-wrapper">
 
@@ -181,7 +210,8 @@
                 @if(sideOfCard == "face"){
                 @for(card of data; track card){
                 <app-card [cardText]="card" [width]="width" [height]="height" [borderRadius]="borderRadius"
-                    [cardBorder]="cardBorder" [backgroundColor]="backgroundColor" [textSize]="textSize">
+                    [cardBorder]="cardBorder" [backgroundPicture]="selectedPictureFace" [backgroundColor]="backgroundColor"
+                    [textSize]="textSize" [backgroundPictureSize]="backgroundSizeFace">
                 </app-card>
 
                 }
